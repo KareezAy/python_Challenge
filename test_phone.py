@@ -30,3 +30,9 @@ class AppTests(unittest.TestCase):
         tp = self.app.get('/')
         assert 'Database is empty'
 
+    #TEST VIEW CONTACT
+    def test_viewContact(self):
+        tp = self.app.post(
+            '/view', data=dict(name='<random>', phone='<random>'))
+        assert 'random'
+
