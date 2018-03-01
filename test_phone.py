@@ -25,3 +25,8 @@ class AppTests(unittest.TestCase):
         os.close(self.db_d)
         os.unlink(app.app.config['DATABASE'])
 
+    #TEST HOME
+    def test_empty_db(self):
+        tp = self.app.get('/')
+        assert 'Database is empty'
+
