@@ -48,3 +48,8 @@ class AppTests(unittest.TestCase):
             '/update', data=dict(name='<random>', phone='<random>'))
         assert 'random'
 
+#__name__POINTS TO THE NAMESPACE WHEREVER THE PYTHON INTERPRETER HAPPENS
+#EVERYTHING IS RUN IN __main__
+if __name__ == '__main__':
+    unittest.main()
+
