@@ -36,3 +36,15 @@ class AppTests(unittest.TestCase):
             '/view', data=dict(name='<random>', phone='<random>'))
         assert 'random'
 
+    #TEST DELETE CONTACT
+    def test_deleteContact(self):
+        tp = self.app.post(
+            '/delete', data=dict(name='<random>', phone='<random>'))
+        assert 'random'
+
+    #TEST UPDATE CONTACT
+    def test_updateContact(self):
+        tp = self.app.post(
+            '/update', data=dict(name='<random>', phone='<random>'))
+        assert 'random'
+
