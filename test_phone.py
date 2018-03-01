@@ -1,55 +1,71 @@
-#USE DEPENDENT OPERATING SYSTEM FUNCTIONALITY
-import os
-
-import app
-
-#CREATE TEMPORARY DIRECTORY
-import tempfile
-
-#TEST AUTOMATION
+#Import Unit Testing Library
 import unittest
 
+from phone import Contacts
 
-class AppTests(unittest.TestCase):
+
+class ContactsTestCase(unittest.TestCase):
 
     def setUp(self):
-        #mkdtemp() is a low level function which requires manual cleanup
-        #ValueError is expected when unpacking too many values
-        self.db_d, app.app.config['DATABASE'] = tempfile.mkdtemp()
-        app.app.testing = True
-        self.app = app.app.test_client()
-        with app.app.app_context():
-            app.phoneBook
+        """ Setting up Contacts class """
+        self.contacts = Contacts()
 
     def tearDown(self):
-        os.close(self.db_d)
-        os.unlink(app.app.config['DATABASE'])
+        """ Removing Contacts class """
+        del self.contacts
 
-    #TEST HOME
-    def test_empty_db(self):
-        tp = self.app.get('/')
-        assert 'Database is empty'
+    """ Create Contacts object test case"""
 
-    #TEST VIEW CONTACT
-    def test_viewContact(self):
-        tp = self.app.post(
-            '/view', data=dict(name='<random>', phone='<random>'))
-        assert 'random'
+    def test_add_contacts(self):
+        """ Test for adding new contacts """
+        response = self.contacts.add("Josiah", "07xxxxxxxx")
+        self.assertEqual(response, "Successfully added contacts")
 
-    #TEST DELETE CONTACT
-    def test_deleteContact(self):
-        tp = self.app.post(
-            '/delete', data=dict(name='<random>', phone='<random>'))
-        assert 'random'
+    """ Create Contacts object test case"""
 
-    #TEST UPDATE CONTACT
-    def test_updateContact(self):
-        tp = self.app.post(
-            '/update', data=dict(name='<random>', phone='<random>'))
-        assert 'random'
+    def test_view_all_contacts(self):
+        # Create contact list
+        self.contacts.contacts_lists = [{"name": "Kevin", "phonenumber": "07xxxxxxxx"}, {
+            "name": "Mazo", "phonenumber": "987654321"}]
+        response = self.contacts.contacts_lists
+        value = self.contacts.view_all()
+        self.assertEqual(response, value)
 
-#__name__POINTS TO THE NAMESPACE WHEREVER THE PYTHON INTERPRETER HAPPENS
-#EVERYTHING IS RUN IN __main__
+    """ Delete Contacts object test case"""
+
+    def test_delete_contact(self):
+        # Create contact list
+        self.contacts.contacts_lists = [
+            {"name": "Eyansky", "phonenumber": "07xxxxxxxx"}]
+        self.assertEqual(1, len(self.contacts.contacts_lists))
+        self.contacts.delete_contact("Eyansky")
+        self.assertEqual(0, len(self.contacts.contacts_lists))
+
+    """ Update Contacts name object test case"""
+
+    def test_update_name_of_contact(self):
+        # Create contact list
+        self.contacts.contacts_lists = [
+            {"name": "Sam", "phonenumber": "07xxxxxxxx"}]
+        contact_in_list = self.contacts.contacts_lists[0]
+        contact_in_list["name"] = "Eva"
+        self.contacts.update_contact(contact_in_list["name"])
+        self.assertEqual(contact_in_list["name"],
+                         self.contacts.contacts_lists["name"])
+
+    """ Update Contacts phonenumber object test case"""
+
+    def test_update_phonenumber_of_contact(self):
+        # Create contact list
+        self.contacts.contacts_lists = [
+            {"name": "Josiah", "phonenumber": "07xxxxxxxx"}]
+        contact_in_list = self.contacts.contacts_lists[0]
+        contact_in_list["phonenumber"] = "07xxxxxxxx"
+        self.contacts.update_contact(contact_in_list["phonenumber"])
+        self.assertEqual(
+            contact_in_list["phonenumber"], self.contacts.contacts_lists["name"])
+
+
 if __name__ == '__main__':
     unittest.main()
-
+    

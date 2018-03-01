@@ -1,6 +1,4 @@
 #Class handles adding, updating, deleting and viewing  contacts
-
-
 class Contacts(object):
 
     def __init__(self):
