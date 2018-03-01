@@ -1,0 +1,13 @@
+#USE DEPENDENT OPERATING SYSTEM FUNCTIONALITY
+import os
+
+import app
+
+#CREATE TEMPORARY DIRECTORY
+import tempfile
+
+#TEST AUTOMATION
+import unittest
+
+
+
