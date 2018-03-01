@@ -21,3 +21,7 @@ class AppTests(unittest.TestCase):
         with app.app.app_context():
             app.phoneBook
 
+    def tearDown(self):
+        os.close(self.db_d)
+        os.unlink(app.app.config['DATABASE'])
+
